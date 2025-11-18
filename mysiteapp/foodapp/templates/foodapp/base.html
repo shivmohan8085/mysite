@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}FoodApp{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'foodapp/base.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Dark Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="{% url 'foodapp:index' %}">Home</a>
+      <a href="#">Menu</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

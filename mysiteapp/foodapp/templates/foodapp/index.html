@@ -1,0 +1,25 @@
+{% extends 'foodapp/base.html' %}
+{% block title %}Items List{% endblock %}
+{% block content %}
+<h1>Our Delicious Menu</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Action</th>
+  </tr>
+  {% for item in item_list %}
+  <tr>
+    <td>{{ item.item_name }}</td>
+    <td>{{ item.item_desc }}</td>
+    <td>₹{{ item.item_price }}</td>
+    <td><a href="{% url 'foodapp:detail' item.id %}">View Detail</a></td>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="4">No items available</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'foodapp/base.html' %}
+{% block title %}Item Detail{% endblock %}
+{% block content %}
+<h1>Item Detail</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <td>{{ item_detail.item_name }}</td>
+  </tr>
+  <tr>
+    <th>Description</th>
+    <td>{{ item_detail.item_desc }}</td>
+  </tr>
+  <tr>
+    <th>Price</th>
+    <td>₹{{ item_detail.item_price }}</td>
+  </tr>
+</table>
+<div class="back-link">
+  <a href="{% url 'foodapp:index' %}">← Back to Menu</a>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fdfdfd;
+  color: #2c3e50;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar (Dark Professional Look) */
+.navbar {
+  background-color: #2c3e50;   /* Dark navy tone */
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.nav-container {
+  max-width: 1000px;
+  margin: auto;
+}
+.nav-container a {
+  color: #ecf0f1;              /* Light text on dark background */
+  margin-right: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+}
+.nav-container a:hover {
+  color: #f1c40f;              /* Gold hover effect */
+}
+
+/* Main Content */
+.main-content {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  color: #34495e;              /* Dark grey heading */
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  border-radius: 6px;
+  overflow: hidden;
+}
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #ecf0f1;
+  text-align: left;
+}
+th {
+  background-color: #2c3e50;   /* Dark header row */
+  color: #fff;
+  font-weight: 600;
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Links */
+a {
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: bold;
+}
+a:hover {
+  color: #f1c40f;
+}
+
+/* Back Link */
+.back-link {
+  text-align: center;
+  margin-top: 30px;
+}
