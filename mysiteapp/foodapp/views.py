@@ -3,17 +3,27 @@ from django.http import HttpResponse
 from .models import Item
 from .forms import ItemForm
 
-# def index(request):
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url="users:login")
+def home(request):
+    return render(request, "foodapp/home.html")
+
+
+
+
+# def get_all_data(request):
 #     item_list = Item.objects.all()
 #     context= {
 #         'item_list':item_list
 #     }
-#     return render(request, "foodapp/index.html", context)
+#     return render(request, "foodapp/display-data.html", context)
 
-def index(request):
+@login_required(login_url="users:login")
+def get_all_data(request):
     """Display all items"""
     item_list = Item.objects.all()
-    return render(request, "foodapp/index.html", {"item_list": item_list})
+    return render(request, "foodapp/display-data.html", {"item_list": item_list})
 
 # def detail(request, id):
 #     item_detail = Item.objects.get(id=id)
@@ -22,6 +32,7 @@ def index(request):
 #     }
 #     return render(request, "foodapp/details.html", context)
 
+@login_required(login_url="users:login")
 def detail(request, id):
     """Display a specific item's details"""
     item_detail = get_object_or_404(Item, id=id)
@@ -29,14 +40,14 @@ def detail(request, id):
 
 
 
-
+@login_required(login_url="users:login")
 def create_item(request):
     if request.method == 'POST':
         form = ItemForm(request.POST)
         if form.is_valid():
             form.save()
             print("Item created successfully")
-            return redirect('foodapp:index')
+            return redirect('foodapp:get_all_data')
     else:
         form = ItemForm()
 
@@ -53,12 +64,13 @@ def create_item(request):
 #     if form.is_valid():
 #         form.save()
 #         print("Item updated successfully")
-#         return redirect('foodapp:index')
+#         return redirect('foodapp:get_all_data')
 #     context = {
 #         'form': form
 #     }
 #     return render(request, "foodapp/item-form.html", context)
 
+@login_required(login_url="users:login")
 def update_item(request, id):
     """Update an existing item"""
     item_detail = get_object_or_404(Item, id=id)
@@ -68,7 +80,7 @@ def update_item(request, id):
         if form.is_valid():
             form.save()
             print("Item updated successfully")
-            return redirect('foodapp:index')
+            return redirect('foodapp:get_all_data')
     else:
         form = ItemForm(instance=item_detail)
 
@@ -79,12 +91,12 @@ def update_item(request, id):
 #     item = get_object_or_404(Item, id=id)
 #     item.delete()
 #     print("Item deleted successfully")
-#     return redirect('foodapp:index')
+#     return redirect('foodapp:get_all_data')
 
-
+@login_required(login_url="users:login")
 def delete_item(request, id):
     """Delete an item"""
     item = get_object_or_404(Item, id=id)
     item.delete()
     print("Item deleted successfully")
-    return redirect('foodapp:index')
+    return redirect('foodapp:get_all_data')

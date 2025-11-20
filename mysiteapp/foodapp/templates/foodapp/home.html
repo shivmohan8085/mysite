@@ -1,0 +1,173 @@
+{% extends 'foodapp/base.html' %}
+{% block title %}Welcome to FoodApp{% endblock %}
+
+{% block content %}
+<style>
+/* Hero Section */
+.hero-section {
+  background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  padding: 120px 20px;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(44, 62, 80, 0.6);
+  z-index: 0;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 2; /* FIXED - button now visible */
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero-text p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+}
+
+.hero-btn {
+  background-color: #f1c40f;
+  color: #2c3e50;
+  padding: 14px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  background-color: #d4ac0d;
+  color: #fff;
+}
+
+/* About Section */
+.about-section {
+  max-width: 1000px;
+  margin: 60px auto;
+  text-align: center;
+}
+
+.about-section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+/* Signature Dishes */
+.dishes-section {
+  background-color: #fff;
+  padding: 60px 20px;
+}
+
+.dishes-section h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  color: #2c3e50;
+}
+
+.dish-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.dish-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.dish-card:hover {
+  transform: translateY(-8px);
+}
+
+.dish-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.dish-card h3 {
+  margin: 15px 0 10px;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.dish-card p {
+  font-size: 0.95rem;
+  color: #555;
+  padding: 0 15px 20px;
+}
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section">
+  <div class="hero-text">
+    <h1>Welcome to Shiv's Kitchen 🍽️</h1>
+    <p>Delicious flavors, crafted with love. Experience dining like royalty.</p>
+    <a href="{% url 'foodapp:get_all_data' %}" class="hero-btn">Explore Menu</a>
+  </div>
+</div>
+
+<!-- About Section -->
+<div class="about-section">
+  <h2>About Us</h2>
+  <p>
+    At Shiv's Kitchen, we believe dining is more than food — it’s an experience.
+    Our chefs craft signature dishes with the finest ingredients, blending tradition and innovation.
+    Step into a world of elegance, taste, and unforgettable hospitality.
+  </p>
+</div>
+
+<!-- Signature Dishes Section -->
+<div class="dishes-section">
+  <h2>Our Signature Dishes</h2>
+  <div class="dish-cards">
+    <div class="dish-card">
+      <img src="https://cdn.jwplayer.com/v2/media/FUkjv0WZ/poster.jpg?width=1920" alt="Royal Paneer Tikka">
+      <h3>Royal Paneer Tikka</h3>
+      <p>Char-grilled paneer marinated in exotic spices, served with mint chutney.</p>
+    </div>
+
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80" alt="Luxury Biryani">
+      <h3>Luxury Biryani</h3>
+      <p>Fragrant basmati rice layered with tender meat and saffron, cooked to perfection.</p>
+    </div>
+
+    <div class="dish-card">
+      <img src="https://images.getrecipekit.com/20250325120225-how-20to-20make-20chocolate-20molten-20lava-20cake-20in-20the-20microwave.png?width=650&quality=90&" alt="Chocolate Lava Cake">
+      <h3>Chocolate Lava Cake</h3>
+      <p>Decadent dessert with molten chocolate center, served with vanilla ice cream.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

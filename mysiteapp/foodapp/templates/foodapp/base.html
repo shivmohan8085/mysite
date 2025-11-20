@@ -8,34 +8,193 @@
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="{% static 'foodapp/base.css' %}">
-</head>
+  <!-- Internal CSS -->
+  <style>
+    /* General Reset */
+    html, body { height: 100%; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #2c3e50;
+      margin: 0; padding: 0; line-height: 1.6;
+      display: flex; flex-direction: column;
+    }
 
+    /* Navbar */
+    .navbar {
+      background-color: #2c3e50;
+      padding: 15px 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+    .nav-container {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-container a {
+      color: #ecf0f1;
+      margin-right: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      position: relative;
+    }
+    .nav-container a:hover { color: #f1c40f; }
+    .nav-container a:hover::after {
+      content: ""; position: absolute; width: 100%; height: 2px;
+      background: #f1c40f; bottom: -5px; left: 0;
+    }
+
+    /* Dropdown */
+    .dropdown { position: relative; display: inline-block; }
+    .dropbtn {
+      background-color: #2c3e50; color: #ecf0f1;
+      font-size: 16px; border: none; cursor: pointer;
+      padding: 8px 16px; font-weight: 500;
+    }
+    .dropbtn:hover { color: #f1c40f; }
+    .dropdown-content {
+      display: none; position: absolute; background-color: #fff;
+      min-width: 180px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      z-get_all_data: 1; border-radius: 4px;
+    }
+    .dropdown-content a {
+      color: #2c3e50; padding: 10px 15px; text-decoration: none;
+      display: block; font-size: 15px;
+    }
+    .dropdown-content a:hover { background-color: #f1c40f; color: #fff; }
+    .dropdown:hover .dropdown-content { display: block; }
+
+    /* Auth Links */
+    .auth-links { margin-left: auto; display: flex; align-items: center; }
+    .auth-links a {
+      color: #ecf0f1; margin-left: 20px; text-decoration: none; font-weight: 500;
+    }
+    .auth-links a:hover { color: #f1c40f; }
+    .welcome-msg { color: #ecf0f1; margin-right: 15px; }
+    .logout-form { display: inline; }
+    .logout-btn {
+      background-color: #c82333; border: none; padding: 6px 12px;
+      border-radius: 4px; font-weight: 500; cursor: pointer; color: #fff;
+    }
+    .logout-btn:hover { background-color: #a71d2a; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .hamburger span {
+      height: 3px; width: 25px;
+      background: #ecf0f1; margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-container a, .dropdown, .auth-links {
+        display: none;
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+      }
+      .nav-container.active a,
+      .nav-container.active .dropdown,
+      .nav-container.active .auth-links {
+        display: block;
+      }
+      .hamburger { display: flex; }
+    }
+
+    /* Main Content */
+    .main-content { padding: 40px 20px; max-width: 1000px; margin: auto; flex: 1; }
+
+    /* Footer */
+    .footer {
+      background-color: #2c3e50; color: #ecf0f1;
+      text-align: center; padding: 20px 10px; margin-top: 40px;
+    }
+    .footer-container { max-width: 1000px; margin: auto; }
+    .footer-links { list-style: none; padding: 0; margin: 10px 0 0; }
+    .footer-links li { display: inline; margin: 0 10px; }
+    .footer-links a { color: #f1c40f; text-decoration: none; font-size: 14px; }
+    .footer-links a:hover { text-decoration: underline; color: #fff; }
+  </style>
+</head>
 <body>
-  <!-- Dark Navbar -->
+
+  <!-- Navbar -->
   <nav class="navbar">
-    <div class="nav-container">
-      <a href="{% url 'foodapp:index' %}">Home</a>
-      <a href="#">Menu</a>
+    <div class="nav-container" id="navMenu">
+
+      <a href="{% url 'foodapp:home' %}">Home</a>
+      <a href="{% url 'foodapp:get_all_data' %}">Menu</a>
       <a href="#">Contact</a>
 
-      <!-- Items Dropdown -->
+      <!-- Dropdown -->
       <div class="dropdown">
         <button class="dropbtn">Items ▾</button>
         <div class="dropdown-content">
           <a href="{% url 'foodapp:create_item' %}">➕ Add Item</a>
-          <!-- <a href="#">📋 View Items</a> 
-          <a href="#">✏️ Edit Item</a>
-          <a href="#">🗑️ Delete Item</a> -->
+          <a href="{% url 'foodapp:get_all_data' %}">🧾 All Items</a>
+
         </div>
       </div>
+
+      <!-- Auth Links -->
+      <div class="auth-links">
+        {% if user.is_authenticated %}
+          <span class="welcome-msg">Welcome, {{ user.username }}</span>
+
+          <a href="{% url 'users:logout' %}" class="logout-btn">Logout</a>
+
+
+        {% else %}
+          <a href="{% url 'users:login' %}">Login</a>
+          <a href="{% url 'users:register' %}">Register</a>
+        {% endif %}
+      </div>
+
+
+
+      <!-- Hamburger -->
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
     </div>
   </nav>
 
-  <!-- Page Content -->
+  <!-- Main Content -->
   <main class="main-content">
     {% block content %}{% endblock %}
   </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>&copy; 2025 FoodApp | Crafted with ❤️ in Indore</p>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- JS for Hamburger -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+  </script>
+
 </body>
 </html>

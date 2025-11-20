@@ -1,0 +1,89 @@
+{% extends "foodapp/base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<style>
+  .auth-card {
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 35px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+  }
+  .auth-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #2c3e50;
+  }
+  .auth-card label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  .auth-card input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 15px;
+  }
+  .auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #27ae60;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .auth-btn:hover {
+    background: #1e8449;
+  }
+  .auth-extra {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  .auth-extra a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .error-msg {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div class="auth-card">
+  <h2>Create Account</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% for error in field.errors %}
+        <div class="error-msg">{{ error }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    {% for error in form.non_field_errors %}
+      <div class="error-msg">{{ error }}</div>
+    {% endfor %}
+
+    <button class="auth-btn" type="submit">Sign Up</button>
+  </form>
+
+  <p class="auth-extra">
+    Already have an account? <a href="{% url 'users:login' %}">Login</a>
+  </p>
+</div>
+{% endblock %}
