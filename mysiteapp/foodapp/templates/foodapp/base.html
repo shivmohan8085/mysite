@@ -4,9 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}FoodApp{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'foodapp/base.css' %}">
+
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="{% static 'foodapp/base.css' %}">
 </head>
+
 <body>
   <!-- Dark Navbar -->
   <nav class="navbar">
@@ -14,6 +19,17 @@
       <a href="{% url 'foodapp:index' %}">Home</a>
       <a href="#">Menu</a>
       <a href="#">Contact</a>
+
+      <!-- Items Dropdown -->
+      <div class="dropdown">
+        <button class="dropbtn">Items ▾</button>
+        <div class="dropdown-content">
+          <a href="{% url 'foodapp:create_item' %}">➕ Add Item</a>
+          <!-- <a href="#">📋 View Items</a> 
+          <a href="#">✏️ Edit Item</a>
+          <a href="#">🗑️ Delete Item</a> -->
+        </div>
+      </div>
     </div>
   </nav>
 

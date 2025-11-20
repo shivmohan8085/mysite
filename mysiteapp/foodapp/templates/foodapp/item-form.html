@@ -1,0 +1,105 @@
+{% extends 'foodapp/base.html' %}
+{% block title %}Add New Item{% endblock %}
+{% block content %}
+
+<style>
+/* -------- Item Form Styles (Taken From base.css) -------- */
+
+.item-form {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.item-form input, 
+.item-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Unified button base */
+.btn {
+  display: inline-block;
+  min-width: 130px;
+  padding: 10px 18px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transition: transform 0.08s ease, box-shadow 0.18s ease, background-color 0.12s ease;
+  margin-right: 10px;
+  line-height: 1;
+}
+
+/* Orange Buttons */
+.btn--orange {
+  background-color: #fd7e14;
+}
+.btn--orange:hover {
+  background-color: #e66f0f;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.18);
+}
+.btn--orange:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Red Button */
+.btn--red {
+  background-color: #c82333;
+}
+.btn--red:hover {
+  background-color: #b51e2b;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.18);
+}
+.btn--red:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Make Anchor Buttons Look Same */
+.item-form .btn, .item-form .btn:visited {
+  color: #fff;
+}
+
+/* Responsive Button Layout */
+@media (max-width: 480px) {
+  .btn {
+    min-width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .form-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+</style>
+
+<h1 class="menu-heading">Add New Item</h1>
+
+<form method="post" class="item-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  
+  <div class="form-buttons">
+    <button type="submit" class="btn btn--orange">Save</button>
+    <button type="reset" class="btn btn--red">Reset</button>
+    <a href="{% url 'foodapp:index' %}" class="btn btn--orange">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

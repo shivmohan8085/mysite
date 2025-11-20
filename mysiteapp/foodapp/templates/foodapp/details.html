@@ -1,22 +1,174 @@
 {% extends 'foodapp/base.html' %}
 {% block title %}Item Detail{% endblock %}
+
 {% block content %}
+
+<style>
+/* General Reset */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* Detail Card */
+.detail-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 900px;
+  margin: auto;
+}
+
+.detail-image img {
+  width: 300px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.detail-info {
+  flex: 1;
+}
+
+.detail-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.detail-info p {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 5px 0;
+}
+
+/* Price */
+.price {
+  font-weight: bold;
+  color: #d63384;
+}
+
+/* Buttons */
+.view-btn, .edit-btn, .delete-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+.view-btn {
+  background-color: #dc3545;
+}
+.view-btn:hover {
+  background-color: #bb2d3b;
+}
+
+.edit-btn {
+  background-color: #fd7e14;
+}
+.edit-btn:hover {
+  background-color: #e8590c;
+}
+
+.delete-btn {
+  background-color: #c82333;
+}
+.delete-btn:hover {
+  background-color: #a71d2a;
+}
+
+/* Back link */
+.back-link {
+  margin-top: 20px;
+}
+
+/* Responsive Fix */
+@media screen and (max-width: 768px) {
+  .detail-card {
+    flex-direction: column;
+    align-items: center;
+  }
+  .detail-image img {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <h1>Item Detail</h1>
-<table>
-  <tr>
-    <th>Name</th>
-    <td>{{ item_detail.item_name }}</td>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <td>{{ item_detail.item_desc }}</td>
-  </tr>
-  <tr>
-    <th>Price</th>
-    <td>₹{{ item_detail.item_price }}</td>
-  </tr>
-</table>
-<div class="back-link">
-  <a href="{% url 'foodapp:index' %}">← Back to Menu</a>
+
+<div class="detail-card">
+  <div class="detail-image">
+    <img src="{{ item_detail.item_image }}" alt="{{ item_detail.item_name }}"
+         onerror="this.src='https://via.placeholder.com/300x220?text=No+Image';">
+  </div>
+
+  <div class="detail-info">
+    <h2>{{ item_detail.item_name }}</h2>
+    <p>{{ item_detail.item_desc }}</p>
+    <p class="price">₹{{ item_detail.item_price }}</p>
+
+    <div class="action-buttons">
+
+      <a href="{% url 'foodapp:update_item' item_detail.id %}" class="edit-btn">Edit</a>
+
+      <!-- SweetAlert Delete -->
+      <a href="#" class="delete-btn" onclick="deleteItem('{{ item_detail.id }}')">Delete</a>
+
+    </div>
+
+    <div class="back-link">
+      <a href="{% url 'foodapp:index' %}" class="view-btn">← Back to Menu</a>
+    </div>
+  </div>
 </div>
+
+<!-- Delete Function -->
+<script>
+function deleteItem(id) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to delete this item?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#c82333',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      // Correct Django URL → always works
+      window.location.href = `{% url 'foodapp:delete_item' 0 %}`.replace('/0/', `/${id}/`);
+
+    }
+  });
+}
+</script>
+
+
+
 {% endblock %}
