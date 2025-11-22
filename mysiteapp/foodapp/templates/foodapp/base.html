@@ -149,8 +149,9 @@
       <!-- Auth Links -->
       <div class="auth-links">
         {% if user.is_authenticated %}
-          <span class="welcome-msg">Welcome, {{ user.username }}</span>
-
+          <a href="{% url 'users:user_profile' %}" class="welcome-msg">
+            Welcome, {{ user.username }}
+          </a>
           <a href="{% url 'users:logout' %}" class="logout-btn">Logout</a>
 
 

@@ -100,3 +100,4 @@ def delete_item(request, id):
     item.delete()
     print("Item deleted successfully")
     return redirect('foodapp:get_all_data')
+

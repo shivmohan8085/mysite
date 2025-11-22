@@ -1,0 +1,100 @@
+{% extends "foodapp/base.html" %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+  .profile-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .profile-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  .profile-card img {
+    display: block;
+    margin: 0 auto 20px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f1c40f;
+  }
+  .profile-card input, .profile-card button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  .profile-card button {
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  .profile-card button:hover {
+    background: #1e8449;
+  }
+</style>
+
+<div class="profile-card">
+  <h2>{{ user.get_full_name|default:user.username }}</h2>
+
+  <img src="{{ user.profile.profile_image.url }}" alt="Profile Image">
+
+  <!-- Profile Edit Form -->
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="id_profile_image">Profile Image:</label>
+    <input type="file" name="profile_image" id="id_profile_image" accept="image/*">
+
+    <label for="id_location">Location:</label>
+    {{ p_form.location }}
+
+    <button type="submit" name="update_profile">Update Profile</button>
+  </form>
+
+  <!-- Password Change Form -->
+  <form method="POST">
+    {% csrf_token %}
+    <label for="id_old_password">Current Password:</label>
+    {{ pass_form.old_password }}
+
+    <label for="id_new_password1">New Password:</label>
+    {{ pass_form.new_password1 }}
+
+    <label for="id_new_password2">Confirm New Password:</label>
+    {{ pass_form.new_password2 }}
+
+    <button type="submit" name="change_password">Change Password</button>
+  </form>
+</div>
+
+<!-- SweetAlert2 Popup Trigger -->
+{% if messages %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    {% for message in messages %}
+      Swal.fire({
+        icon: 'success',
+        title: '{{ message|escapejs }}',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    {% endfor %}
+  });
+</script>
+{% endif %}
+
+{% endblock %}

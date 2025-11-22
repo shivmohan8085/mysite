@@ -8,4 +8,5 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     # path('logout/', auth_views.LogoutView.as_view(next_page='foodapp:get_all_data'), name='logout'),
     path("logout/", views.logout_user, name="logout"),
+    path('user-profile/', views.user_profile, name='user_profile'),
 ]
