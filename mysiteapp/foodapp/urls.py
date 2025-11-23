@@ -22,6 +22,6 @@ urlpatterns = [
     path('items/<int:id>/update/', views.ItemUpdateView.as_view(), name='update_item'),
 
     # path('items/<int:id>/delete/', views.delete_item, name='delete_item'),
-    path('items/<int:id>/delete/', views.DeleteView.as_view(), name='delete_item'),
+    path('items/<int:id>/delete/', views.ItemDeleteView.as_view(), name='delete_item'),
 
 ]

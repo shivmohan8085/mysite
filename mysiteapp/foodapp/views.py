@@ -95,6 +95,7 @@ class ItemCreateView(CreateView):
     success_url = reverse_lazy("foodapp:get_all_data")
 
     def form_valid(self, form):
+        form.instance.user_name= self.request.user
         print("Item created successfully")
         return super().form_valid(form)
 
@@ -166,9 +167,15 @@ class ItemUpdateView(UpdateView):
 @method_decorator(login_required(login_url="users:login"), name='dispatch')
 class ItemDeleteView(DeleteView):
     model = Item
-    template_name = "foodapp/item-confirm-delete.html"  # confirmation page
     success_url = reverse_lazy("foodapp:get_all_data")
-    pk_url_kwarg = "id"  
+    pk_url_kwarg = "id"
+
+    # Direct delete without confirmation template
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
     def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.delete()
         print("Item deleted successfully")
-        return super().delete(request, *args, **kwargs)
+        return redirect(self.success_url)
