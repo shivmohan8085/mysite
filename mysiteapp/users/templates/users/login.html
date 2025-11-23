@@ -54,16 +54,37 @@
 <div class="auth-card">
   <h2>Login</h2>
 
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.username.label_tag }}  
-    {{ form.username }}
 
-    {{ form.password.label_tag }}
-    {{ form.password }}
+<form method="POST">
+  {% csrf_token %}
 
-    <button class="auth-btn" type="submit">Login</button>
-  </form>
+  <!-- Show non-field errors (like invalid login) -->
+  {% if form.non_field_errors %}
+    <div style="color: red; margin-bottom: 10px;">
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {{ form.username.label_tag }}  
+  {{ form.username }}
+
+  {{ form.password.label_tag }}
+  {{ form.password }}
+
+  <!-- Show field-specific errors -->
+  {% if form.username.errors %}
+    <div style="color: red;">{{ form.username.errors }}</div>
+  {% endif %}
+  {% if form.password.errors %}
+    <div style="color: red;">{{ form.password.errors }}</div>
+  {% endif %}
+
+  <button class="auth-btn" type="submit">Login</button>
+</form>
+
+
 
   <p class="auth-extra">
     Not registered? <a href="{% url 'users:register' %}">Create an account</a>
