@@ -1,0 +1,223 @@
+[
+  {
+    "model": "foodapp.item",
+    "pk": 1,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Pizza",
+      "item_desc": "Cheesy pizza topped with fresh veggies",
+      "item_price": "8.99",
+      "item_image": "https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 2,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Burger",
+      "item_desc": "Juicy burger with lettuce and cheese",
+      "item_price": "5.49",
+      "item_image": "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 3,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Pasta",
+      "item_desc": "Creamy pasta with white sauce",
+      "item_price": "7.99",
+      "item_image": "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 4,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Paneer Tikka",
+      "item_desc": "Grilled paneer cubes marinated in spices",
+      "item_price": "9.49",
+      "item_image": "https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 5,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Chicken Biryani",
+      "item_desc": "Aromatic rice with spiced chicken",
+      "item_price": "10.99",
+      "item_image": "https://images.pexels.com/photos/5410400/pexels-photo-5410400.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 6,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Masala Dosa",
+      "item_desc": "Crispy dosa filled with spiced potato",
+      "item_price": "4.99",
+      "item_image": "https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 7,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Caesar Salad",
+      "item_desc": "Lettuce, croutons, parmesan, and Caesar dressing",
+      "item_price": "6.49",
+      "item_image": "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 8,
+    "fields": {
+      "user_name": 1,
+      "item_name": "French Fries",
+      "item_desc": "Golden crispy potato fries",
+      "item_price": "3.99",
+      "item_image": "https://images.pexels.com/photos/1893555/pexels-photo-1893555.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 9,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Chocolate Shake",
+      "item_desc": "Rich chocolate milkshake topped with cream",
+      "item_price": "4.49",
+      "item_image": "https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 10,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Ice Cream",
+      "item_desc": "Vanilla ice cream scoop with toppings",
+      "item_price": "3.99",
+      "item_image": "https://images.pexels.com/photos/1352245/pexels-photo-1352245.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 11,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Tandoori Chicken",
+      "item_desc": "Chicken roasted in traditional tandoor",
+      "item_price": "11.99",
+      "item_image": "https://images.pexels.com/photos/616354/pexels-photo-616354.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 12,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Fried Rice",
+      "item_desc": "Rice stir-fried with vegetables and soy sauce",
+      "item_price": "6.99",
+      "item_image": "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 13,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Hakka Noodles",
+      "item_desc": "Chinese-style noodles with vegetables",
+      "item_price": "7.49",
+      "item_image": "https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 14,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Tomato Soup",
+      "item_desc": "Warm tomato soup with herbs",
+      "item_price": "3.49",
+      "item_image": "https://images.pexels.com/photos/539451/pexels-photo-539451.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 15,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Grilled Sandwich",
+      "item_desc": "Cheese and veggies grilled between bread slices",
+      "item_price": "4.99",
+      "item_image": "https://images.pexels.com/photos/1600711/pexels-photo-1600711.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 16,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Butter Naan",
+      "item_desc": "Soft naan brushed with butter",
+      "item_price": "1.99",
+      "item_image": "https://images.pexels.com/photos/5560765/pexels-photo-5560765.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  },
+  {
+    "model": "foodapp.item",
+    "pk": 17,
+    "fields": {
+      "user_name": 1,
+      "item_name": "Dal Makhani",
+      "item_desc": "Creamy black lentils cooked overnight",
+      "item_price": "6.49",
+      "item_image": "https://images.pexels.com/photos/5410412/pexels-photo-5410412.jpeg",
+      "is_available": true,
+      "created_at": "2026-02-01"
+    }
+  }
+]

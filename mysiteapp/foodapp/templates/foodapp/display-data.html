@@ -84,6 +84,23 @@
   {% endfor %}
 </table>
 
+<!-- Pagination -->
+<div style="text-align:center; margin-top:20px;">
 
+    {% if page_obj.has_previous %}
+        <a href="?page=1" class="view-btn">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="view-btn">Previous</a>
+    {% endif %}
+
+    <span style="margin:0 10px; font-weight:bold;">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="view-btn">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="view-btn">Last</a>
+    {% endif %}
+
+</div>
 
 {% endblock %}
