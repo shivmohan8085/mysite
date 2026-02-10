@@ -32,7 +32,7 @@ def item_list(request):
 
     logger.info("Fetching item list")
 
-    items = Item.objects.all().order_by("-created_at")
+    items = Item.objects.all().order_by("-updated_at", "-created_at")
 
     paginator = Paginator(items, 5)
     page_number = request.GET.get("page")

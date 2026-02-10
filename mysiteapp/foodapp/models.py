@@ -12,6 +12,7 @@ class Item(models.Model):
     item_image=models.URLField(max_length=500, default='https://www.foodservicerewards.com/cdn/shop/t/262/assets/fsr-placeholder.png?v=45093109498714503231652397781')
     is_available=models.BooleanField(default=True)
     created_at=models.DateField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) 
 
     is_deleted=models.BooleanField(default=False)
     deleted_at=models.DateTimeField(blank=True, null=True)
