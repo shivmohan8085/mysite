@@ -14,17 +14,33 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.item-form input, 
+.form-group {
+  margin-bottom: 15px;
+}
+
+.item-form input,
 .item-form textarea {
   width: 100%;
   padding: 10px;
-  margin-bottom: 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
 }
 
-/* Unified button base */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.error-box {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
 .btn {
   display: inline-block;
   min-width: 130px;
@@ -37,69 +53,83 @@
   text-decoration: none;
   border: none;
   cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-  transition: transform 0.08s ease, box-shadow 0.18s ease, background-color 0.12s ease;
   margin-right: 10px;
-  line-height: 1;
 }
 
-/* Orange Buttons */
 .btn--orange {
   background-color: #fd7e14;
 }
-.btn--orange:hover {
-  background-color: #e66f0f;
-  box-shadow: 0 5px 14px rgba(0,0,0,0.18);
-}
-.btn--orange:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-}
 
-/* Red Button */
 .btn--red {
   background-color: #c82333;
 }
-.btn--red:hover {
-  background-color: #b51e2b;
-  box-shadow: 0 5px 14px rgba(0,0,0,0.18);
-}
-.btn--red:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-}
 
-/* Make Anchor Buttons Look Same */
-.item-form .btn, .item-form .btn:visited {
-  color: #fff;
-}
-
-/* Responsive Button Layout */
-@media (max-width: 480px) {
-  .btn {
-    min-width: 100%;
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
-  .form-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-}
 </style>
+
 
 <h1 class="menu-heading">Add New Item</h1>
 
-<form method="post" class="item-form">
+<form method="post" enctype="multipart/form-data" class="item-form">
   {% csrf_token %}
-  {{ form.as_p }}
-  
-  <div class="form-buttons">
-    <button type="submit" class="btn btn--orange">Save</button>
-    <button type="reset" class="btn btn--red">Reset</button>
-    <a href="{% url 'foodapp:get_all_data' %}" class="btn btn--orange">Cancel</a>
+
+  <!-- 🔴 FORM LEVEL ERRORS -->
+  {% if form.non_field_errors %}
+      <div class="error-box">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+  <!-- 🔹 Item Name -->
+  <div class="form-group">
+      <label for="id_item_name">Item Name</label>
+      {{ form.item_name }}
+      {% if form.item_name.errors %}
+          <div class="error">
+              {{ form.item_name.errors }}
+          </div>
+      {% endif %}
   </div>
+
+  <!-- 🔹 Description -->
+  <div class="form-group">
+      <label for="id_item_desc">Description</label>
+      {{ form.item_desc }}
+      {% if form.item_desc.errors %}
+          <div class="error">
+              {{ form.item_desc.errors }}
+          </div>
+      {% endif %}
+  </div>
+
+  <!-- 🔹 Price -->
+  <div class="form-group">
+      <label for="id_item_price">Price</label>
+      {{ form.item_price }}
+      {% if form.item_price.errors %}
+          <div class="error">
+              {{ form.item_price.errors }}
+          </div>
+      {% endif %}
+  </div>
+
+  <!-- 🔹 Image URL -->
+  <div class="form-group">
+      <label for="id_item_image">Image URL</label>
+      {{ form.item_image }}
+      {% if form.item_image.errors %}
+          <div class="error">
+              {{ form.item_image.errors }}
+          </div>
+      {% endif %}
+  </div>
+
+  <!-- 🔘 Buttons -->
+  <div class="form-buttons">
+      <button type="submit" class="btn btn--orange">Save</button>
+      <button type="reset" class="btn btn--red">Reset</button>
+      <a href="{% url 'foodapp:get_all_data' %}" class="btn btn--orange">Cancel</a>
+  </div>
+
 </form>
 
 {% endblock %}

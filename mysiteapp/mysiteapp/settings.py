@@ -189,23 +189,55 @@ CACHES = {
 
 
 
-
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log'),
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+    "version": 1,
+
+    # ✅ Never disable Django loggers completely
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "standard": {
+            "format": "{asctime} | {levelname} | {name} | {message}",
+            "style": "{",
         },
     },
+
+    "handlers": {
+
+        # ✅ Normal App Logs
+        "app_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "app.log"),
+            "formatter": "standard",
+            "level": "INFO",
+        },
+
+        # ✅ Only Errors
+        "error_file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "error.log"),
+            "formatter": "standard",
+            "level": "ERROR",
+        },
+    },
+
+    "loggers": {
+
+        # ✅ Control Django Noise (VERY IMPORTANT)
+        "django": {
+            "handlers": ["error_file"],   # Only store errors
+            "level": "ERROR",
+            "propagate": False,
+        },
+
+        # ✅ Your App Logger
+        "foodapp": {
+            "handlers": ["app_file", "error_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+
+
+    }
 }
+
