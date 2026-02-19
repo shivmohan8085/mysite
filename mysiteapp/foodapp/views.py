@@ -7,12 +7,12 @@ from .models import Item
 from .forms import ItemForm
 import logging
 
+
 # Use named cache
 food_cache = caches["foodapp_cache"]
 
 # Use app-specific logger (IMPORTANT)
 logger = logging.getLogger("foodapp")
-
 
 # ---------------- HOME ----------------
 @login_required(login_url="users:login")
@@ -191,3 +191,68 @@ def delete_item(request, id):
         raise
 
     return redirect("foodapp:get_all_data")
+
+
+
+
+
+
+# -------------------------------- DRF code -----------------------------------------------
+
+from django.http import JsonResponse
+from .serializers import ItemSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+
+
+
+# using json response
+def item_iist_json(request):
+    items = list(Item.objects.values("id", "item_name"))
+    # return JsonResponse({"data":items})
+    return JsonResponse(items, safe=False)
+
+
+
+
+
+# item list
+@api_view(["GET","POST"])
+def item_iist_api(request):
+    if request.method == "GET":
+        items = Item.objects.all()
+        Serializer =ItemSerializer(items, many= True) # many=True handling multiple objects (a queryset or list).
+        return Response(Serializer.data)
+    elif request.method == "POST":
+        Serializer = ItemSerializer(data = request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data)
+
+
+@api_view(["GET", "PUT", "DELETE"])
+def item_detail_api(request, pk):
+    try:
+        item = Item.objects.get(pk=pk)
+    except Item.DoesNotExist:
+        return Response(
+            {"message": "Item not found"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    if request.method == "GET":
+        Serializer =ItemSerializer(item)
+        return Response(Serializer.data)
+    
+    elif request.method == "PUT":
+        Serializer = ItemSerializer(item, data = request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data)
+        
+    elif request.method == "DELETE":
+        item.delete()
+        return Response({"messsage":"Item deleted Successfully"})
+
+

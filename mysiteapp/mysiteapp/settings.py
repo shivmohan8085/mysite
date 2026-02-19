@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'foodapp',
     # 'users.apps.UsersConfig',
     'users',
+    'rest_framework',
 
 ]
 
