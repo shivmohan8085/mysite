@@ -1,6 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from foodapp.views import *
+
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r"items", views.ItemViewSet, basename="item")
+
 
 app_name = "foodapp"
 
@@ -13,16 +19,28 @@ urlpatterns = [
     path("items/<int:id>/delete/", views.delete_item, name="delete_item"),
     
 
+
     # json api without drf
-    # path("item-iist-json", views.item_iist_json, name="all_items_json"),
+    path("item-iist-json", views.item_iist_json, name="all_items_json"),
+
 
     # # with function based DRF
     # path("item-iist-api", views.item_iist_api, name="all_items_api"),
     # path("item-detail-api/<int:pk>", views.item_detail_api, name="item_detail_api"),
 
-    # with class based DRF
-    path("item-iist-api", ItemListApiView.as_view(), name="all_items_api"),
-    path("item-detail-api/<int:pk>", ItemDetailView.as_view(), name="item_detail_api"),
+    # # with class based DRF
+    # path("item-iist-api", ItemListApiView.as_view(), name="all_items_api"),
+    # path("item-detail-api/<int:pk>", ItemDetailView.as_view(), name="item_detail_api"),
+
+
+    # with class based DRF with Generic view
+    path("item-iist-api", ItemListCreateAPI.as_view(), name="all_items_api"),
+    path("item-detail-api/<int:pk>", ItemRetriveUpdateDestroyAPI.as_view(), name="item_detail_api"),
+
+
+    # with class based DRF with viewsets for all type crud
+    path("api/", include(router.urls)),
+
 
 
 ]

@@ -197,29 +197,36 @@ def delete_item(request, id):
 
 
 
-# -------------------------------- DRF code -----------------------------------------------
+# -------------------------------- using json response-----------------------------------------------
 
 from django.http import JsonResponse
+
+def item_iist_json(request):
+    items = list(Item.objects.values("id", "item_name"))
+    # return JsonResponse({"data":items})
+    return JsonResponse(items, safe=False)
+
+
+
+# -------------------------------- DRF code-----------------------------------------------
+
 from .serializers import ItemSerializer
 from rest_framework.response import Response
+
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 
+# from rest_framework.generics import GenericAPIView
+from rest_framework import generics
 
-
-# # using json response
-# def item_iist_json(request):
-#     items = list(Item.objects.values("id", "item_name"))
-#     # return JsonResponse({"data":items})
-#     return JsonResponse(items, safe=False)
+from rest_framework import viewsets
 
 
 
+# --------------------------get item list  and cretae item-------------------------
 
-
-
-# # item list  
+# # Function based--------
 # @api_view(["GET","POST"])
 # def item_iist_api(request):      # function based view 
 #     if request.method == "GET":
@@ -234,104 +241,124 @@ from rest_framework.views import APIView
 
 
 
-class ItemListApiView(APIView):   # class based views
-    def get(self,request):
-        items = Item.objects.all()
-        serializer =ItemSerializer(items, many= True) 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# # class based ------------
+# class ItemListApiView(APIView):   # class based views
+#     def get(self,request):
+#         items = Item.objects.all()
+#         serializer =ItemSerializer(items, many= True) 
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        serializer = ItemSerializer(data=request.data)
+#     def post(self, request):
+#         serializer = ItemSerializer(data=request.data)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED
-            )
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(
+#                 serializer.data,
+#                 status=status.HTTP_201_CREATED
+#             )
 
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-
+#         return Response(
+#             serializer.errors,
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def item_detail_api(request, pk):            # function based view 
-    try:
-        item = Item.objects.get(pk=pk)
-    except Item.DoesNotExist:
-        return Response(
-            {"message": "Item not found"},
-            status=status.HTTP_404_NOT_FOUND
-        )
+# generic class based-----------
+class ItemListCreateAPI(generics.ListCreateAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
 
-    if request.method == "GET":
-        serializer =ItemSerializer(item)
-        return Response(serializer.data)
+
+
+# --------------------------item get , update and delete  -------------------------
+# # function based-----------
+# @api_view(["GET", "PUT", "DELETE"])
+# def item_detail_api(request, pk):            # function based view 
+#     try:
+#         item = Item.objects.get(pk=pk)
+#     except Item.DoesNotExist:
+#         return Response(
+#             {"message": "Item not found"},
+#             status=status.HTTP_404_NOT_FOUND
+#         )
+
+#     if request.method == "GET":
+#         serializer =ItemSerializer(item)
+#         return Response(serializer.data)
     
-    elif request.method == "PUT":
-        serializer = ItemSerializer(item, data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+#     elif request.method == "PUT":
+#         serializer = ItemSerializer(item, data = request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
         
-    elif request.method == "DELETE":
-        item.delete()
-        return Response({"messsage":"Item deleted Successfully"})
+#     elif request.method == "DELETE":
+#         item.delete()
+#         return Response({"messsage":"Item deleted Successfully"})
 
 
 
-class ItemDetailView(APIView):
+# # class based ----------
+# class ItemDetailView(APIView):
 
-    def get_object(self,pk):
-        try:    
-            item = Item.objects.get(pk=pk)
-            return item
-        except Item.DoesNotExist:
-            return None
+#     def get_object(self,pk):
+#         try:    
+#             item = Item.objects.get(pk=pk)
+#             return item
+#         except Item.DoesNotExist:
+#             return None
         
-    def get(self, request, pk):
-        item = self.get_object(pk)
+#     def get(self, request, pk):
+#         item = self.get_object(pk)
 
-        if not item:
-            return Response(
-                {"message": "Item not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        serializer = ItemSerializer(item)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         if not item:
+#             return Response(
+#                 {"message": "Item not found"},
+#                 status=status.HTTP_404_NOT_FOUND
+#             )
+#         serializer = ItemSerializer(item)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def put(self, request, pk):
-        item = self.get_object(pk)
+#     def put(self, request, pk):
+#         item = self.get_object(pk)
 
-        if not item:
-            return Response(
-                {"message": "Item not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        serializer = ItemSerializer(item, data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status= status.HTTP_200_OK)
+#         if not item:
+#             return Response(
+#                 {"message": "Item not found"},
+#                 status=status.HTTP_404_NOT_FOUND
+#             )
+#         serializer = ItemSerializer(item, data = request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status= status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-    def delete(self,request, pk):
-        item = self.get_object(pk)
-        if not item:
-            return Response(
-                {"message": "Item not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        item.delete()
-        return Response(
-            {"message": "Item deleted successfully"},
-            status=status.HTTP_204_NO_CONTENT
-        )
+#     def delete(self,request, pk):
+#         item = self.get_object(pk)
+#         if not item:
+#             return Response(
+#                 {"message": "Item not found"},
+#                 status=status.HTTP_404_NOT_FOUND
+#             )
+#         item.delete()
+#         return Response(
+#             {"message": "Item deleted successfully"},
+#             status=status.HTTP_204_NO_CONTENT
+#         )
 
 
-#--------------------------DRF CLASS BASED VIEW ----------------
+
+class ItemRetriveUpdateDestroyAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset= Item.objects.all()
+    serializer_class=ItemSerializer
+
+
+
+
+# ---------------------- drf using one ViewSets for all type crud -----------
+class ItemViewSet(viewsets.ModelViewSet):
+        queryset = Item.objects.all()
+        serializer_class = ItemSerializer
