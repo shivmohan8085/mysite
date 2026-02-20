@@ -204,35 +204,62 @@ from .serializers import ItemSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.views import APIView
 
 
 
-# using json response
-def item_iist_json(request):
-    items = list(Item.objects.values("id", "item_name"))
-    # return JsonResponse({"data":items})
-    return JsonResponse(items, safe=False)
+# # using json response
+# def item_iist_json(request):
+#     items = list(Item.objects.values("id", "item_name"))
+#     # return JsonResponse({"data":items})
+#     return JsonResponse(items, safe=False)
 
 
 
 
 
-# item list
-@api_view(["GET","POST"])
-def item_iist_api(request):
-    if request.method == "GET":
+
+# # item list  
+# @api_view(["GET","POST"])
+# def item_iist_api(request):      # function based view 
+#     if request.method == "GET":
+#         items = Item.objects.all()
+#         serializer =ItemSerializer(items, many= True) # many=True handling multiple objects (a queryset or list).
+#         return Response(serializer.data)
+#     elif request.method == "POST":
+#         serializer = ItemSerializer(data = request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+
+
+
+class ItemListApiView(APIView):   # class based views
+    def get(self,request):
         items = Item.objects.all()
-        Serializer =ItemSerializer(items, many= True) # many=True handling multiple objects (a queryset or list).
-        return Response(Serializer.data)
-    elif request.method == "POST":
-        Serializer = ItemSerializer(data = request.data)
-        if Serializer.is_valid():
-            Serializer.save()
-            return Response(Serializer.data)
+        serializer =ItemSerializer(items, many= True) 
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = ItemSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def item_detail_api(request, pk):
+def item_detail_api(request, pk):            # function based view 
     try:
         item = Item.objects.get(pk=pk)
     except Item.DoesNotExist:
@@ -242,17 +269,69 @@ def item_detail_api(request, pk):
         )
 
     if request.method == "GET":
-        Serializer =ItemSerializer(item)
-        return Response(Serializer.data)
+        serializer =ItemSerializer(item)
+        return Response(serializer.data)
     
     elif request.method == "PUT":
-        Serializer = ItemSerializer(item, data = request.data)
-        if Serializer.is_valid():
-            Serializer.save()
-            return Response(Serializer.data)
+        serializer = ItemSerializer(item, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         
     elif request.method == "DELETE":
         item.delete()
         return Response({"messsage":"Item deleted Successfully"})
 
 
+
+class ItemDetailView(APIView):
+
+    def get_object(self,pk):
+        try:    
+            item = Item.objects.get(pk=pk)
+            return item
+        except Item.DoesNotExist:
+            return None
+        
+    def get(self, request, pk):
+        item = self.get_object(pk)
+
+        if not item:
+            return Response(
+                {"message": "Item not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = ItemSerializer(item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, pk):
+        item = self.get_object(pk)
+
+        if not item:
+            return Response(
+                {"message": "Item not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = ItemSerializer(item, data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status= status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def delete(self,request, pk):
+        item = self.get_object(pk)
+        if not item:
+            return Response(
+                {"message": "Item not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        item.delete()
+        return Response(
+            {"message": "Item deleted successfully"},
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+
+#--------------------------DRF CLASS BASED VIEW ----------------

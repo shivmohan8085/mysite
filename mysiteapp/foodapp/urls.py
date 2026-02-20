@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from foodapp.views import *
 
 app_name = "foodapp"
 
@@ -13,12 +14,15 @@ urlpatterns = [
     
 
     # json api without drf
-    path("item-iist-json", views.item_iist_json, name="all_items_json"),
+    # path("item-iist-json", views.item_iist_json, name="all_items_json"),
 
-    # with DRF
-    path("item-iist-api", views.item_iist_api, name="all_items_api"),
-    path("item-detail-api/<int:pk>", views.item_detail_api, name="item_detail_api"),
+    # # with function based DRF
+    # path("item-iist-api", views.item_iist_api, name="all_items_api"),
+    # path("item-detail-api/<int:pk>", views.item_detail_api, name="item_detail_api"),
 
+    # with class based DRF
+    path("item-iist-api", ItemListApiView.as_view(), name="all_items_api"),
+    path("item-detail-api/<int:pk>", ItemDetailView.as_view(), name="item_detail_api"),
 
 
 ]
