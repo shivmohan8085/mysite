@@ -217,7 +217,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 
-# from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework import generics
 
 from rest_framework import viewsets
@@ -227,6 +227,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -365,15 +366,37 @@ class ItemRetriveUpdateDestroyAPI(generics.RetrieveUpdateDestroyAPIView):
 
 
 # ---------------------- drf using one ViewSets for all type crud -----------
+
+from .custom_filters import ItemFilter
+from rest_framework.filters import OrderingFilter
+from rest_framework.filters import SearchFilter
+from rest_framework.throttling import UserRateThrottle
+
 class ItemViewSet(viewsets.ModelViewSet):
-        # authentication_classes = [TokenAuthentication]   # auth token
-        # permission_classes = [IsAuthenticated]
+        authentication_classes = [TokenAuthentication]   # auth token
+        permission_classes = [IsAuthenticated]
 
-        authentication_classes = [JWTAuthentication]  # JWT auth token
-        permission_classes = [IsOwnerOrReadOnly]
+        throttle_classes = [UserRateThrottle] 
 
-        queryset = Item.objects.all()
+        # authentication_classes = [JWTAuthentication]  # JWT auth token
+        # permission_classes = [IsOwnerOrReadOnly]
+
+        queryset = Item.objects.filter(is_deleted=False)  # soft delete handling
         serializer_class = ItemSerializer
 
+
+        filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+        # filterset_fields = ['item_name', 'item_price']
+        # filterset_class = ItemFilter    # custom filter
+
+        ordering_fields = ['item_name', 'item_price', 'created_at']
+        ordering = ['-created_at']  # default ordering
+
+        search_fields = ['item_name', 'item_desc']
+
         def perform_create(self, serializer):
-            serializer.save(user_name = self.request.user)
+            serializer.save(user_name=self.request.user)
+
+
+
+

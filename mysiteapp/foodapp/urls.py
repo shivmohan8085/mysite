@@ -6,8 +6,10 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-router = DefaultRouter()
+
+router = DefaultRouter(trailing_slash=False)
 router.register(r"items", views.ItemViewSet, basename="item")
+
 
 
 app_name = "foodapp"
@@ -44,13 +46,13 @@ urlpatterns = [
     path("api/", include(router.urls)),
 
 
-    # # api for  generate authtoken
-    # path("api/token/", obtain_auth_token),
+    # api for  generate authtoken
+    path("api/token/", obtain_auth_token),
 
 
-    # api for  generate JWT authtoken
-    path('api/jwt-token/', TokenObtainPairView.as_view(), name='token_obtain'),
-    path('api/jwt-token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # # api for  generate JWT authtoken
+    # path('api/jwt-token/', TokenObtainPairView.as_view(), name='token_obtain'),
+    # path('api/jwt-token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
 
