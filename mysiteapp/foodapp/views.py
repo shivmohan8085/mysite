@@ -374,3 +374,6 @@ class ItemViewSet(viewsets.ModelViewSet):
 
         queryset = Item.objects.all()
         serializer_class = ItemSerializer
+
+        def perform_create(self, serializer):
+            serializer.save(user_name = self.request.user)
