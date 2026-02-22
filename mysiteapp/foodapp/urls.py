@@ -1,8 +1,10 @@
 from django.urls import path, include
 from . import views
 from foodapp.views import *
-
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
 router.register(r"items", views.ItemViewSet, basename="item")
@@ -40,6 +42,17 @@ urlpatterns = [
 
     # with class based DRF with viewsets for all type crud
     path("api/", include(router.urls)),
+
+
+    # # api for  generate authtoken
+    # path("api/token/", obtain_auth_token),
+
+
+    # api for  generate JWT authtoken
+    path('api/jwt-token/', TokenObtainPairView.as_view(), name='token_obtain'),
+    path('api/jwt-token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+
 
 
 

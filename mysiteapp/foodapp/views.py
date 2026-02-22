@@ -223,6 +223,12 @@ from rest_framework import generics
 from rest_framework import viewsets
 
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .permissions import IsOwnerOrReadOnly
+
+
 
 # --------------------------get item list  and cretae item-------------------------
 
@@ -360,5 +366,11 @@ class ItemRetriveUpdateDestroyAPI(generics.RetrieveUpdateDestroyAPIView):
 
 # ---------------------- drf using one ViewSets for all type crud -----------
 class ItemViewSet(viewsets.ModelViewSet):
+        # authentication_classes = [TokenAuthentication]   # auth token
+        # permission_classes = [IsAuthenticated]
+
+        authentication_classes = [JWTAuthentication]  # JWT auth token
+        permission_classes = [IsOwnerOrReadOnly]
+
         queryset = Item.objects.all()
         serializer_class = ItemSerializer
