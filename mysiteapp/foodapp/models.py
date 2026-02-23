@@ -84,8 +84,6 @@ class Item(models.Model):
 
 
 
-
-
 class Category(models.Model):
     name = models.CharField(max_length=200)
     added_on=models.DateField(auto_now=True)

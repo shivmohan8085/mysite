@@ -358,7 +358,7 @@ class ItemListCreateAPI(generics.ListCreateAPIView):
 #         )
 
 
-
+# generic class based-----------
 class ItemRetriveUpdateDestroyAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset= Item.objects.all()
     serializer_class=ItemSerializer
