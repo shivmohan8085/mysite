@@ -26,25 +26,6 @@ class Item(models.Model):
     deleted_at=models.DateTimeField(blank=True, null=True)
 
 
-
-    @property
-    def image_url(self):
-        """
-        Returns uploaded image if exists physically,
-        otherwise returns default image.
-        """
-        if self.item_image:
-            try:
-                if os.path.exists(self.item_image.path):
-                    return self.item_image.url
-            except Exception:
-                pass
-
-        return settings.MEDIA_URL + "default/default_dish.png"
-
-
-
-
     # def delete(self, using=None, keep_parents=False):
     #     self.is_deleted = True
     #     self.deleted_at = timezone.now()
@@ -88,6 +69,7 @@ class Item(models.Model):
 
     # ---------------- META ----------------
     class Meta:
+        ordering = ['-created_at'] 
         indexes = [
             models.Index(fields=["item_name", "item_price"])
         ]
@@ -95,5 +77,6 @@ class Item(models.Model):
     def __str__(self):
         return self.item_name
 
+    # Managers
     objects = ItemManager()
     all_objects = models.Manager()

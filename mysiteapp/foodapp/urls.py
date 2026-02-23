@@ -25,20 +25,20 @@ urlpatterns = [
 
 
     # json api without drf
-    path("item-iist-json", views.item_iist_json, name="all_items_json"),
+    path("item-list-json", views.item_iist_json, name="all_items_json"),
 
 
     # # with function based DRF
-    # path("item-iist-api", views.item_iist_api, name="all_items_api"),
+    # path("item-list-api", views.item_iist_api, name="all_items_api"),
     # path("item-detail-api/<int:pk>", views.item_detail_api, name="item_detail_api"),
 
     # # with class based DRF
-    # path("item-iist-api", ItemListApiView.as_view(), name="all_items_api"),
+    # path("item-list-api", ItemListApiView.as_view(), name="all_items_api"),
     # path("item-detail-api/<int:pk>", ItemDetailView.as_view(), name="item_detail_api"),
 
 
     # with class based DRF with Generic view
-    path("item-iist-api", ItemListCreateAPI.as_view(), name="all_items_api"),
+    path("item-list-api", ItemListCreateAPI.as_view(), name="all_items_api"),
     path("item-detail-api/<int:pk>", ItemRetriveUpdateDestroyAPI.as_view(), name="item_detail_api"),
 
 

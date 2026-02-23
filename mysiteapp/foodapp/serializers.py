@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Item
 from django.contrib.auth.models import User
 import re
+from django.conf import settings
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
 
     user_name = UserSerializer(read_only=True)  # for shoe user_name in api response
+    item_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -65,3 +67,14 @@ class ItemSerializer(serializers.ModelSerializer):
                 )
 
         return data
+    
+
+    def get_item_image(self, obj):
+        request = self.context.get("request")
+
+        if obj.item_image:
+            return request.build_absolute_uri(obj.item_image.url)
+
+        # Default image return karo
+        default_path = settings.MEDIA_URL + "default/default_dish.png"
+        return request.build_absolute_uri(default_path)
