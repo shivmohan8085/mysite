@@ -25,9 +25,13 @@ class ItemForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Enter price'
             }),
-            'item_image': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter image URL'
+            # 'item_image': forms.TextInput(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Enter image URL'
+            # }),
+
+            'item_image': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
             }),
         }
 
@@ -79,30 +83,18 @@ class ItemForm(forms.ModelForm):
 
         return price
 
-    # 🔥 4️⃣ Image URL Validation
-    def clean_item_image(self):
-
-        image = self.cleaned_data.get("item_image")
-
-        if not image.startswith("http"):
-            raise ValidationError(
-                "Image must be a valid URL."
-            )
-
-        return image
 
     # 🔥 5️⃣ FORM LEVEL Validation (Senior Move)
     def clean(self):
-
         cleaned_data = super().clean()
 
         name = cleaned_data.get("item_name")
         desc = cleaned_data.get("item_desc")
 
         if name and desc:
-            if name.lower() in desc.lower():
+            if name.strip().lower() == desc.strip().lower():
                 raise ValidationError(
-                    "Item name should not be repeated in description."
+                    "Description cannot be exactly same as item name."
                 )
 
         return cleaned_data

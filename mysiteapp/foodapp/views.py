@@ -126,7 +126,8 @@ def update_item(request, id):
     item = get_object_or_404(Item, pk=id)
 
     if request.method == "POST":
-        form = ItemForm(request.POST, instance=item)
+        # form = ItemForm(request.POST, instance=item)
+        form = ItemForm(request.POST, request.FILES, instance=item) 
 
         if form.is_valid():
             form.save()
@@ -394,8 +395,8 @@ class ItemViewSet(viewsets.ModelViewSet):
 
         search_fields = ['item_name', 'item_desc']
 
-        def perform_create(self, serializer):
-            serializer.save(user_name=self.request.user)
+        # def perform_create(self, serializer):
+        #     serializer.save(user_name=self.request.user)
 
 
 
