@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
-    'django_filters',
+    'django_filters', 
+    "drf_spectacular",   # for ducumentation
 ]
 
 MIDDLEWARE = [
@@ -277,16 +278,25 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
     ],
+
     'DEFAULT_THROTTLE_RATES': {
 
     'anon': '10/minute',      # Limit for unauthenticated users to prevent abuse.
     'user': '100/minute',     # Higher limit for authenticated users.
     'login': '5/minute',      # Strict limit for login endpoint to prevent brute-force attacks.
-    }
+    },
 
-
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 
 } 
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Food API",
+    "DESCRIPTION": "Food Ordering API Documentation",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
 
 
 # SIMPLE_JWT = {

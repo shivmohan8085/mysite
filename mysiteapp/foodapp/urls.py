@@ -3,16 +3,21 @@ from . import views
 from foodapp.views import *
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
-
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
 
 
+# 🔹 Router setup
 router = DefaultRouter(trailing_slash=False)
 router.register(r"items", views.ItemViewSet, basename="item")
-
-
+router.register(r"orders", views.OrderViewSet, basename="order")
 
 app_name = "foodapp"
+
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -55,7 +60,37 @@ urlpatterns = [
     # path('api/jwt-token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
+  # 🔹 DRF Spectacular Schema
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+
+    # 🔹 Swagger UI
+    path("api/docs/",SpectacularSwaggerView.as_view(url_name="foodapp:schema"),name="swagger-ui",
+    ),
+
+    # 🔹 Redoc UI
+    path("api/redoc/",SpectacularRedocView.as_view(url_name="foodapp:schema"),name="redoc",
+    ),
 
 
 
+]
+
+
+
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
+from django.urls import path
+
+urlpatterns += [
+    # Raw OpenAPI schema
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+
+    # Swagger UI
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+
+    # Redoc UI (alternative)
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]

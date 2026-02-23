@@ -3,7 +3,7 @@
 
 # admin.site.register(Item)
 from django.contrib import admin
-from .models import Item
+from .models import Item , Order
 
 
 @admin.register(Item)
@@ -15,3 +15,5 @@ class ItemAdmin(admin.ModelAdmin):
         # IMPORTANT: custom manager ko bypass karne ke liye
         return Item.all_objects.all()
 
+
+admin.site.register(Order)

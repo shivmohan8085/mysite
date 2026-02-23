@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Item
+from .models import Item, Order
 from django.contrib.auth.models import User
 import re
 from django.conf import settings
@@ -69,12 +69,36 @@ class ItemSerializer(serializers.ModelSerializer):
         return data
     
 
-    def get_item_image(self, obj):
+    # def get_item_image(self, obj):
+    #     request = self.context.get("request")
+
+    #     if obj.item_image:
+    #         return request.build_absolute_uri(obj.item_image.url)
+
+    #     # Default image return karo
+    #     default_path = settings.MEDIA_URL + "default/default_dish.png"
+    #     return request.build_absolute_uri(default_path)
+    
+
+    def get_item_image(self, obj) -> str:
         request = self.context.get("request")
 
         if obj.item_image:
             return request.build_absolute_uri(obj.item_image.url)
 
-        # Default image return karo
-        default_path = settings.MEDIA_URL + "default/default_dish.png"
-        return request.build_absolute_uri(default_path)
+        return request.build_absolute_uri(
+            settings.MEDIA_URL + "default/default_dish.png"
+        )
+
+
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    items = ItemSerializer(many=True, read_only = True)
+    user = serializers.StringRelatedField()
+
+    class Meta:
+        model = Order
+        fields = ["id", "user", "items", "created_at"]
+        read_only_fields = ["id", "created_at"] 
