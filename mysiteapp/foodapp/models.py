@@ -16,8 +16,7 @@ class Item(models.Model):
     item_image = models.ImageField(
         upload_to="item_images/",
         default="default/default_dish.png",
-        blank=True,
-        null=True
+        blank=True
     )
     is_available=models.BooleanField(default=True)
     created_at=models.DateField(auto_now_add=True)
@@ -25,6 +24,25 @@ class Item(models.Model):
 
     is_deleted=models.BooleanField(default=False)
     deleted_at=models.DateTimeField(blank=True, null=True)
+
+
+
+    @property
+    def image_url(self):
+        """
+        Returns uploaded image if exists physically,
+        otherwise returns default image.
+        """
+        if self.item_image:
+            try:
+                if os.path.exists(self.item_image.path):
+                    return self.item_image.url
+            except Exception:
+                pass
+
+        return settings.MEDIA_URL + "default/default_dish.png"
+
+
 
 
     # def delete(self, using=None, keep_parents=False):
